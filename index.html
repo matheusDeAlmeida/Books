@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Book List</title>
+  <style>
+    :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+    body { margin:0; background:#f5f5f5; }
+    header { position:sticky; top:0; background:white; padding:12px; box-shadow:0 1px 4px rgba(0,0,0,0.08); }
+    h1 { font-size:18px; margin:0 0 8px 0; }
+    input { width:100%; padding:10px; font-size:16px; border:1px solid #ddd; border-radius:8px; }
+    #list { padding:10px; }
+    .book { background:white; padding:12px; border-radius:10px; margin-bottom:8px; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
+    .title { font-weight:600; font-size:15px; }
+    .author { color:#555; font-size:14px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Books</h1>
+  <input id="search" placeholder="Search books..." />
+</header>
+
+<div id="list"></div>
+
+<script>
+let books = [];
+
+async function loadBooks() {
+  const res = await fetch('books.json');
+  books = await res.json();
+  render(books);
+}
+
+function render(items) {
+  const list = document.getElementById('list');
+  list.innerHTML = '';
+
+  items.forEach(b => {
+    const el = document.createElement('div');
+    el.className = 'book';
+    el.innerHTML = `
+      <div class="title">${b.title}</div>
+      <div class="author">${b.author}</div>
+    `;
+    list.appendChild(el);
+  });
+}
+
+function filterBooks(q) {
+  q = q.toLowerCase();
+  const filtered = books.filter(b =>
+    b.title.toLowerCase().includes(q) ||
+    b.author.toLowerCase().includes(q)
+  );
+  render(filtered);
+}
+
+document.getElementById('search').addEventListener('input', e => {
+  filterBooks(e.target.value);
+});
+
+loadBooks();
+</script>
+
+</body>
+</html>
+
+/* books.json example */
+[
+{"title":"2001 Uma odisseia no espaço","author":"Arthur C. Clarke"},
+{"title":"A bagaceira","author":"Jose Americo de Almeida"},
+{"title":"A Capital","author":"Eça de Queiroz"},
+{"title":"A casa de bonecas","author":"Henrik Ibsen"},
+{"title":"A economia politica da arte","author":"John Ruskin"},
+{"title":"A fugitiva","author":"Marcel Proust"},
+{"title":"A ilustre casa de ramires","author":"Eça de Queiroz"},
+{"title":"A mao e a luva","author":"Machado de Assis"},
+{"title":"A mulher de trinta anos","author":"Honoré de Balzac"},
+{"title":"A queda dum anjo","author":"Camilo Castelo Branco"},
+{"title":"A rainha vermelha","author":"Victoria Aveyard"},
+{"title":"A ultima missao","author":"Anthony Burgess"},
+{"title":"Ainda estou aqui","author":"Marcelo Rubens Paiva"},
+{"title":"Alceste","author":"Eurípedes"},
+{"title":"Alem do bem e do mal","author":"Friedrich Nietzsche"},
+{"title":"Amanhecer na colheita","author":"Suzanne Collins"},
+{"title":"Analista de bagé","author":"Luis Fernando Veríssimo"},
+{"title":"Antologia do bom senso","author":"Roberto Campos"},
+{"title":"As três paixoes","author":"Stephan Zweig"},
+{"title":"Assassinato de roger ackroyd","author":"Agatha Christie"},
+{"title":"Assassinato e outras historias","author":"Anton Tchekhov"},
+{"title":"Assassinato no campo de golfe","author":"Agatha Christie"},
+{"title":"Assassinato no expresso oriente","author":"Agatha Christie"},
+{"title":"Ateneu","author":"Raul Pompeia"},
+{"title":"Ateneu","author":"Raul Pompeia"},
+{"title":"Auto da compadecida","author":"Ariano suassuna"},
+{"title":"Bagagem","author":"Adelia Prado"},
+{"title":"Barcarola","author":"Pablo Neruda"},
+{"title":"Bartleby o escrivão","author":"Herman Melville"},
+{"title":"Beijo nao vem da boca","author":"Loyola Brandão"},
+{"title":"Beyond the story","author":"BTS"},
+{"title":"Biblioteca da meia noite","author":"Matt Haig"},
+{"title":"Boa terra","author":"Pearl S Buck"},
+{"title":"Bras Bexiga e Barra Funda","author":"Antonio Alcântara Machado"},
+{"title":"Cadeiras proibidas","author":"Loyola Brandão"},
+{"title":"Cai o pano","author":"Agatha Christie"},
+{"title":"Campo geral","author":"Guimarães Rosa"},
+{"title":"Candy","author":"Terry Southern"},
+{"title":"Capeta carybé","author":"Jorge Amado"},
+{"title":"Capitaes de areia","author":"Jorge Amado"},
+{"title":"Carlos Drummond","author":"Carlos Drummond"},
+{"title":"Cartuxa de parma","author":"Stendhal"},
+{"title":"Cecilia meireles","author":"Cecilia Meireles"},
+{"title":"Cidade das redes","author":"Otto Friedrich"},
+{"title":"Ciranda de contos","author":"Vários"},
+{"title":"Claro enigma","author":"Carlos Drummond de Andrade"},
+{"title":"Comedia da vida privada","author":"Luis Fernando Verissimo"},
+{"title":"Contos","author":"Juan Carlos Onetti"},
+{"title":"Crepusculo","author":"Stephenie Meyer"},
+{"title":"Cronicas","author":"Rubem Braga"},
+{"title":"Cuentos de eva luna","author":"Isabel Allende"},
+{"title":"Curioso caso de Benjamin Button","author":"Francis Scott Fitzgerald"},
+{"title":"Decamerão","author":"Giovanni Bocaccio"},
+{"title":"Dois de nós","author":"Gustavo Pinheiro"},
+{"title":"Eles nao usam black tie","author":"Gianfrancesco Guarnieri"},
+{"title":"Emma","author":"Jane Austen"},
+{"title":"Encontro marcado","author":"Fernando Sabino"},
+{"title":"Enquanto agonizo","author":"William Faulkner"},
+{"title":"Eramos seis","author":"Maria Jose Dupré"},
+{"title":"Esau e Jacó","author":"Machado de Assis"},
+{"title":"Etica","author":"Aristóteles"},
+{"title":"Eu, robô","author":"Isaac Asimov"},
+{"title":"Eugenia grandet","author":"Honore de Balzac"},
+{"title":"Eurico o presbítero","author":"A. Herculano"},
+{"title":"Eurídice","author":"Jose Lins do Rego"},
+{"title":"Exodus","author":"Leon Uris"},
+{"title":"Exodus II","author":"Leon Uris"},
+{"title":"Fahrenheit","author":"Ray Bradbury"},
+{"title":"Feira de versos","author":"Vários"},
+{"title":"Felicidade clandestina","author":"Clarice Lispector"},
+{"title":"Fio da navalha","author":"W. Somerset Maugham"},
+{"title":"Fogo morto","author":"Jose Lins do Rego"},
+{"title":"Fogo morto","author":"Jose Lins do Rego"},
+{"title":"Fulgor e morte de Joaquin Murieta","author":"Pablo Neruda"},
+{"title":"Futuro de uma ilusão","author":"Sigmund Freud"},
+{"title":"Gavetas vazias","author":"Tania Pellegrini"},
+{"title":"Giovanni","author":"James Baldwin"},
+{"title":"Grande sertão veredas","author":"Guimarães Rosa"},
+{"title":"Great expectations","author":"Charles Dickens"},
+{"title":"Haicai","author":"Vários"},
+{"title":"Hercules","author":"Euripedes"},
+{"title":"Historias reais","author":"Machado de Assis"},
+{"title":"Hora da estrela","author":"Clarice Lispector"},
+{"title":"Hotel Mundo","author":"Ali Smith"},
+{"title":"Iliada","author":"Homero"},
+{"title":"Incidente em Antares","author":"Erico Verissimo"},
+{"title":"Incidente em Antares","author":"Erico Verissimo"},
+{"title":"Inocencia","author":"Taunay"},
+{"title":"Intermezzo","author":"Sally Rooney"},
+{"title":"Iracema","author":"Jose de Alencar"},
+{"title":"Jogos vorazes","author":"Suzanne Collins"},
+{"title":"Laços de familia","author":"Clarice Lispector"},
+{"title":"Ladeira da memoria","author":"Jose Geraldo Vieira"},
+{"title":"Ligaçoes perigosas","author":"Pierre Laclos"},
+{"title":"Little Women","author":"Louisa May Alcott"},
+{"title":"Lua nova","author":"Stephenie Meyer"},
+{"title":"Madame bovary","author":"Gustave Flaubert"},
+{"title":"Mafalda","author":"Quino"},
+{"title":"Manon lescaut","author":"Prévost"},
+{"title":"Manuel Bandeira","author":"Manuel Bandeira"},
+{"title":"Mayombe","author":"Pepetela"},
+{"title":"Medico e o monstro","author":"Robert Louis Stevenson"},
+{"title":"Memorias de Adriano","author":"Marguerite Yourcenar"},
+{"title":"Memorias de um sargento de milicias","author":"Manuel Antonio de Almeida"},
+{"title":"Memorias de um sargento de milicias","author":"Manuel Antonio de Almeida"},
+{"title":"Memorias do carcere","author":"Graciliano Ramos"},
+{"title":"Memorias postumas de brás cubas","author":"Machado de Assis"},
+{"title":"Mensagem","author":"Fernando Pessoa"},
+{"title":"Metamorfose","author":"Franz Kafka"},
+{"title":"Miss lonelyhearts","author":"Nathanael West"},
+{"title":"Misterio do trem azul","author":"Agatha Christie"},
+{"title":"Morro dos ventos uivantes","author":"Emily Bronte"},
+{"title":"Morte e morte quincas berro d'agua","author":"Jorge Amado"},
+{"title":"Morte vida severina","author":"Joao Cabral de Melo Neto"},
+{"title":"Nação crioula","author":"Jose Eduardo Agualusa"},
+{"title":"Nada de novo no front","author":"Erich Maria Remarque"},
+{"title":"Neruda","author":"Neruda"},
+{"title":"Noites do sertao","author":"Guimarães Rosa"},
+{"title":"Normal people","author":"Sally Rooney"},
+{"title":"O alienista","author":"Machado de Assis"},
+{"title":"O Capital","author":"Thomas Piketty"},
+{"title":"O caso dos dez negrinhos","author":"Agatha Christie"},
+{"title":"O cavaleiro inexistente","author":"Italo Calvino"},
+{"title":"O cortiço","author":"Aluisio Azevedo"},
+{"title":"O espião que saiu do frio","author":"John le Carré"},
+{"title":"O ladrão de cadaveres","author":"Patricia Melo"},
+{"title":"O principe","author":"Maquiavel"},
+{"title":"O processo","author":"Franz Kafka"},
+{"title":"O Quinze","author":"Rachel de Queiroz"},
+{"title":"O Reino deste mundo","author":"Alejo Carpentier"},
+{"title":"O Retrato de Dorian Gray","author":"Oscar Wilde"},
+{"title":"Observador no escritório","author":"Carlos Drummond de Andrade"},
+{"title":"Odisseia","author":"Homero"},
+{"title":"Olhos de cobra verde","author":"Lilia Momplé"},
+{"title":"Os escravos","author":"Castro Alves"},
+{"title":"Os miseraveis","author":"Victor Hugo"},
+{"title":"Os miseraveis II","author":"Victor Hugo"},
+{"title":"Otelo","author":"William Shakespeare"},
+{"title":"Pagador de promessas","author":"Dias Gomes"},
+{"title":"Partido ao meio","author":"Italo Calvino"},
+{"title":"Perdas e ganhos","author":"Lya Luft"},
+{"title":"Persuasão","author":"Jane Austen"},
+{"title":"Picture of Dorian Gray","author":"Oscar Wilde"},
+{"title":"Poemas","author":"Alvaro de Campos"},
+{"title":"Poemas","author":"Fernando Pessoa"},
+{"title":"Politica","author":"Aristoteles"},
+{"title":"Pomba enamorada","author":"Lygia Fagundes Telles"},
+{"title":"Primo Basilio","author":"Eça de Queiroz"},
+{"title":"Quarto de despejo","author":"Carolina Maria de Jesus"},
+{"title":"Quase memoria","author":"Carlos Heitor Cony"},
+{"title":"Raizes do brasil","author":"Sergio Buarque de Holanda"},
+{"title":"Relações perigosas","author":"Pierre de Laclos"},
+{"title":"Reliquia","author":"Eça de Queiroz"},
+{"title":"Repouso do guerreiro","author":"C Rochefort"},
+{"title":"Retrato de um naufrago","author":"Gabriel Garcia Marquez"},
+{"title":"Robinson Crusoé","author":"Daniel Defoe"},
+{"title":"Romeu e julieta","author":"William Shakespeare"},
+{"title":"Sagarana","author":"Guimarães Rosa"},
+{"title":"Salgueiro","author":"Lucio Cardoso"},
+{"title":"Sandman","author":"Neil Gaiman"},
+{"title":"São Bernardo","author":"Graciliano Ramos"},
+{"title":"Sir robert","author":"Nancy Alves"},
+{"title":"Sombra e ossos","author":"Leigh Bardugo"},
+{"title":"Sonho de uma noite de verão","author":"William Shakespeare"},
+{"title":"Stephen king","author":"Stephen King"},
+{"title":"Steve Jobs","author":"Walter Isaacson"},
+{"title":"Tartufo ou o impostor","author":"Moliere"},
+{"title":"Tchau","author":"Lygia Bojunga"},
+{"title":"Terra sonâmbula","author":"Mia Couto"},
+{"title":"Terra sonâmbula","author":"Mia Couto"},
+{"title":"Terras sem fim","author":"Jorge Amado"},
+{"title":"Tess of D'ubervilles","author":"Thomas Hardy"},
+{"title":"The hound of the baskervilles","author":"Arthur Conan Doyle"},
+{"title":"Til","author":"Jose de Alencar"},
+{"title":"Toi et moi","author":"Paul Geraldy"},
+{"title":"Torto arado","author":"Itamar Vieira"},
+{"title":"Três Peças","author":"Pirandello"},
+{"title":"Triste fim de Policarpo quaresma","author":"Lima Barreto"},
+{"title":"Triste fim de Policarpo quaresma","author":"Lima Barreto"},
+{"title":"Ultimo suspiro do mouro","author":"Salman Rushdie"},
+{"title":"Um estudo em vermelho","author":"Arthur Conan Doyle"},
+{"title":"Um estudo em vermelho","author":"Arthur Conan Doyle"},
+{"title":"Uma vida","author":"Guy de Maupassant"},
+{"title":"Ursula","author":"Maria Firmina dos Reis"},
+{"title":"Utopia","author":"Thomas More"},
+{"title":"Velha Rosa","author":"Reinaldo Arenas"},
+{"title":"VIagens da minha terra","author":"Almeida Garret"},
+{"title":"VIagens da minha terra","author":"Almeida Garret"},
+{"title":"Vidas secas","author":"Graciliano Ramos"},
+{"title":"Visconde partdo ao meio","author":"Italo Calvino"},
+{"title":"Wuthering heights","author":"Emily Bronte"}
+]
